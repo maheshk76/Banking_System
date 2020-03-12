@@ -1,0 +1,188 @@
+﻿@model WDDN_V2.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Profile";
+}
+
+    <div>
+        @if (Request.IsAuthenticated)
+        {
+            <img class="center-block" height="50%" width="50%" src="~/Images/undraw_warning_cyit.svg" />
+
+        }
+        else
+        {
+
+            <h2>@ViewBag.Title.</h2>
+
+            <p class="text-success">@ViewBag.StatusMessage</p>
+            <hr />
+            <h4>Hello,</h4>
+            <h4>
+                @Html.ActionLink(User.Identity.GetUserId(), "Index")
+            </h4>
+            <hr />
+            <dl class="dl-horizontal">
+
+                <marquee behavior="scroll" direction="left"
+                         class="text-danger alert-danger">
+                    For any changes in any information please visit your branch and do applicaiton for the change of information.Thank you ::
+                    <strong> NOTE: </strong>You can change your login password here.
+                </marquee>
+                <p>Personal</p>
+                <dt>Full name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+                <dt>Guardian's Full name</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Guardian_Name)
+                </dd>
+                <dt>Email</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    EmailConfirmed
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EmailConfirmed)
+                </dd>
+                <dt>DOB</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Date_of_Birth)
+                </dd>
+                <dt>Mobile Number</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+
+                <dt>Nationality</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Country)
+                </dd>
+                <dt>Addhaar No.</dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <p>Address Information</p>
+                <dt>Full address</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt>City</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.City)
+                </dd>
+
+                <dt>Pincode</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Pincode)
+                </dd>
+                <dt>Country</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Country)
+                </dd>
+                <p>Additonal Info</p>
+                <dt>Attached Documents</dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <p>Security</p>
+                <dt>Password:</dt>
+                <dd>
+
+                    @if (Model.HasPassword)
+                    {
+                        @Html.ActionLink("Change your login password", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetPassword")
+                    }
+
+                </dd>
+                @*
+                Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+                 See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+                 Uncomment the following block after you have set up two-factor authentication
+                *@
+                @*
+                <dt>Phone Number:</dt>
+                <dd>
+                    @(Model.PhoneNumber ?? "None")
+                    @if (Model.PhoneNumber != null)
+                    {
+                        <br />
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                        using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                    }
+                </dd>
+                *@
+
+                @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+
+            </dl>
+            <hr />
+            <dl class="dl-horizontal">
+                <p>Account Information</p>
+                <dt>Account Number</dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <dt>Account Type : </dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <dt>Branch | Branchcode : </dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <dt>Balance : </dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink("Manage", "ManageLogins") ]
+                </dd>
+                <br />
+                <a class="btn btn-info">Mini Statement</a>
+                <a class="btn btn-info">past transactions</a>
+                <a class="btn btn-info">Passbook</a>
+            </dl>
+        }
+    </div>
+    

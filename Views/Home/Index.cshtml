@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Home";
+    TempData["ActiveUId"] = User.Identity.GetUserId();
+    TempData.Keep("ActiveUId");
+    //This is Home Page
+}
+    <body>
+        <script>
+
+            function sayHello() {
+                var d = new Date();
+                document.getElementById("demo").innerHTML = d;
+                setTimeout(sayHello, 1);
+            }; sayHello();
+        </script>
+        <style>
+            footer {
+                position: relative;
+                bottom: 10px;
+            }
+        </style>
+
+        @using Microsoft.AspNet.Identity
+        <marquee behavior="scroll" direction="left"
+                 class="text-danger alert-danger">
+            Our bank will never ask any confidential information such as PIN and OTP from customers.
+            Any such call can be made only by a fraudster.Please do not share personal information.
+        </marquee>
+        <div class="jumbotron">
+            <img src="~/Images/logo.png" alt="Logo" width="100px" />
+            <h2 class="pull-right" style="color:cadetblue;font-family:Bahnschrift">eBank</h2>
+        </div>
+        @if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+        {
+            <hr />
+            
+            <h3>
+                Welcome,
+                @ViewBag.NAME <sup class="text-info"> (ADMIN)</sup>
+            </h3> <p style="color:forestgreen">Last Login : @TempData.Peek("UserLog")</p>
+
+            <hr />
+            <div class="row jumbotron">
+                <a href="@Url.Action("ManageAccount","Admin")">
+                    <div class="col-lg-3">
+                        <h5>Manage Accounts</h5>
+                        <ul>
+                            <li>Manage Users</li>
+                            <li>Money Transfer</li>
+                            <li>Transactions</li>
+                        </ul>
+
+                    </div>
+                </a>
+                <a href="@Url.Action("Notifications","Admin")">
+                    <div class="col-lg-3">
+                        <h5>My Notifications</h5>
+                        <ul>
+                            <li>User Requests</li>
+
+                        </ul>
+                    </div>
+                </a>
+                <a href="@Url.Action("Notifications","Admin")">
+                    <div class="col-lg-3">
+                        <h5>Site Notifications</h5>
+                        <ul>
+                            <li>Newsletter</li>
+                            <li>Announcements</li>
+                        </ul>
+                    </div>
+                </a>
+                <a href="@Url.Action("Notifications","Admin")">
+                    <div class="col-lg-3">
+                        <h5>Settings</h5>
+                        <ul>
+                            <li>Site management</li>
+                            <li>Update</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+            <hr />
+        }
+        @if (Request.IsAuthenticated && User.Identity.GetUserName() != "bankingsys12@gmail.com")
+        {
+            <hr />
+                    <h4>
+                        Welcome,
+                        @ViewBag.NAME
+                    </h4>
+                    <h6 style="color:forestgreen">Last Login : @TempData.Peek("UserLog")</h6>
+                   
+                <hr />
+                <div class="row jumbotron">
+                    <a href="@Url.Action("Details","Usermanager",new { id=User.Identity.GetUserId()})">
+                        <div class="col-md-3">
+                            <h5>Account Summary</h5>
+                            <p>
+                                <ul>
+                                    <li>Account information</li>
+                                    <li>Account statement</li>
+                                    <li>Change password</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Create","Transactions")">
+                        <div class="col-md-3">
+                            <h5>Fund Transfer</h5>
+                            <p>
+                                <ul>
+                                    <li>Transfer money directly to bank account</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Requestmoney","Transactions")">
+                        <div class="col-md-3">
+                            <h5>Request money</h5>
+                            <p>
+                                <ul>
+                                    <li>
+                                        Provide mobile number for requesting money
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <hr />
+                }
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Details regarding new account</h4>
+                        <ul>
+                            <li>You can not apply for new account here.This portal is only for banking services.</li>
+                            <li>You have to visit your nearby branch to apply for a new account</li>
+                        </ul>
+                        <p><a class="btn btn-default" href="@Url.Action("NewAccountApply","Account")">Learn more &raquo;</a></p>
+                    </div>  <div class="col-md-4">
+                        <h4>Know more about banking</h4>
+                        <p>new RBI rules and banking information</p>
+                        <p><a class="btn btn-default" href="https://www.rbi.org.in/" target="_new">Learn more &raquo;</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Our services</h4>
+                        <p><a class="btn btn-default" href="@Url.Action("Services","Home")">Learn more &raquo;</a></p>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <br />
+                    <!-- Footer -->
+                    <footer class="page-footer font-small blue-grey lighten-5" style="background-color:#15151e;color:white">
+                        <div class="container text-center text-md-left mt-5">
+                            <h5>Social</h5>
+                            <h5>
+                                <span class="fa fa-youtube"></span>
+                                &emsp;<span class="fa fa-linkedin"></span>
+                                &emsp;<span class="fa fa-facebook-square"></span>
+                            </h5>
+
+                        </div>
+                        <hr />
+                        <div class="footer-copyright text-center text-black-50 py-3">
+                            &copy; 2019 - @DateTime.Now.Year  &nbsp;eBank
+                        </div>
+                    </footer>
+                </div>
+</body>

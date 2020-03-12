@@ -1,0 +1,103 @@
+﻿@model WDDN_V2.Transaction
+@using Microsoft.AspNet.Identity
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Transfer";
+    ViewBag.CUser = User.Identity.GetUserId();
+    TempData["CUserMail"] = User.Identity.GetUserName();
+    //User will be redirected to this page when he/she clicks on bank transfer link.
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <style>
+        input,textarea{outline:none;}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+input[type=number]{
+  -moz-appearance: textfield;
+}
+    </style>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        if (Request.IsAuthenticated)
+        {
+            <div class="form-horizontal">
+                <h2>Enter bank details</h2>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.Hidden("UserId", (object)ViewBag.CUser)
+                @Html.Hidden("Date", DateTime.Now.ToString())
+                @Html.Hidden("FromAccount",(object)ViewBag.CUserAccNo)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ToAccount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ToAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ConfirmToAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ConfirmToAccount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmToAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Recipient, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Recipient, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Continue" class="btn btn-info" />
+                    </div>
+                </div>
+                <br />
+                <p>>> Amount must be nonzero</p>
+                <p>>> This information will be securely saved as per eBank Terms of Service.</p>
+            </div>
+
+        }
+        else
+        {
+
+            <hr />
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Oops!</h4>
+                <h2>Error Occurred!</h2>
+                <hr />
+
+            </div>
+            <hr />
+        }
+    }
+</body>
+</html>

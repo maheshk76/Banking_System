@@ -1,0 +1,108 @@
+﻿@model IEnumerable<WDDN_V2.Transaction>
+@using Microsoft.AspNet.Identity
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //All the transactions made by all the users.
+    ViewBag.Title = "Transactions";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        label {
+            display: inline-block;
+        }
+    </style>
+    
+</head>
+<body>
+
+    @if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+    {
+        <h2>All Transactions</h2>
+        <br />
+        <hr />
+        using (Html.BeginForm("Index", "Transactions", FormMethod.Post))
+        {
+<div class="form-group">
+
+    @Html.TextBox("searchString", null, new
+{ @class = "form-control mb-2", @placeholder = "Search by id,name,a/c number or date ..." })
+
+</div>
+
+    }
+
+    <br />
+    <table class="table table-hover">
+        @if (!Model.Any())
+        {
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Oops!</h4>
+                <h2>No transaction(s) found!</h2>
+                <hr />
+            </div>
+        }
+        else
+        {
+            <tr class="bg-danger">
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FromAccount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ToAccount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Recipient)
+                </th>
+            </tr>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FromAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount) /-
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Recipient)
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    }
+    else
+    {
+    <hr />
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Oops!</h4>
+        <h2>Error Occurred!</h2>
+        <hr />
+    </div>
+    <hr />
+    }
+
+</body>
+</html>

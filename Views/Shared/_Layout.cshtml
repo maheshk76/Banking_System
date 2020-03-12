@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" href="~/Images/logo.png">
+    <style>
+        a {
+            transition: .2s;
+        }
+
+        input, textarea {
+            outline: none;
+        }
+
+        * {
+            font-family: Bahnschrift;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .not {
+            color: red;
+            font-size: 15px
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar bg-info navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="btn btn-default navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("eBank", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @title = "Home" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+                    {
+                        <li>
+                            @if (Convert.ToInt32(TempData.Peek("nots")) == 0)
+                            {
+                                <a href="@Url.Action("Notifications","Admin")" title="no new notifications" class="material-icons">notifications_none</a>
+
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Notifications","Admin")" title="@TempData.Peek("nots") new notification(s)" class="material-icons">notifications<span class="not">@TempData.Peek("nots")</span></a>
+
+                            }
+
+                        </li>
+                    }
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

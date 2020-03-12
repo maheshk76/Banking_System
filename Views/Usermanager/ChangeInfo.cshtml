@@ -1,0 +1,72 @@
+﻿@model WDDN_V2.Notification
+@{
+    ViewBag.Title = "ChangeInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.CUser = User.Identity.GetUserId();
+    
+}
+
+@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+
+<html>
+<head></head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (Request.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>Enter information that you want to change</h2>
+                  
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Hidden("UserId", (object)ViewBag.CUser)
+                    @Html.Hidden("UserName",(object)ViewBag.name)
+                   
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Issue, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(m => m.Issue, new { @class = "form-control" ,@placeholder="change in name,address,birth date etc..."})
+                            @Html.ValidationMessageFor(m => m.Issue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-info" />
+                        </div>
+                    </div>
+                    <br />
+                    <hr />
+                    <div>
+                        <p>>> Write your issues.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+        else
+        {
+            <hr />
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Oops!</h4>
+                <h2>Error occurred.</h2>
+                <hr />
+
+            </div>
+            <hr />
+        }
+
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</body>
+</html>

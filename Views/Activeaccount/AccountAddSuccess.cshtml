@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Success";
+    //Success message for admin when he adds new account
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+</head>
+<body>
+    <hr />
+
+    <div class="alert alert-success" role="alert">
+        <h3 class="alert-heading">Done!</h3>
+        <h4>New account added successfully.</h4>
+        
+        <hr />
+        <button type="button" class="btn btn-group bg-success text-primary" onclick="window.history.back()">Click here for new account</button>
+      
+    </div>
+    <hr />
+</body>
+</html>

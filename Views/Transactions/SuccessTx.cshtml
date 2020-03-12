@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Success";
+    //Success message for admin when he adds new account
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script>
+        function timeFunction() {
+            history.go(-2);
+         }
+    </script>
+</head>
+<body>
+    <hr />
+
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Done!</h4>
+
+        <br />
+        <p>Transaction is made on @DateTime.Now.ToString()</p>
+        <p>To     : @ViewBag.Name</p>
+        <p>Amount : @ViewBag.Amt</p>
+        <hr />
+       <button onclick="timeFunction()" class="btn btn-group">Go to Home</button>
+    </div>
+    <hr />
+</body>
+</html>

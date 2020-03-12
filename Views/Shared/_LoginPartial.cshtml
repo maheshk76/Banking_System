@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNet.Identity
+    <style>
+        .buttons {
+            border-radius: 10px;
+        }
+    </style>
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+        <a title="Logout" style="color:red" href="javascript:document.getElementById('logoutForm').submit()" class="material-icons">power_settings_new</a>
+        </li>
+    </ul>
+   
+    }
+}
+
+else
+{
+<ul class="nav navbar-nav navbar-right">
+    <li class="bg-primary buttons">
+    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" ,style="color:white"})
+    </li>
+</ul>
+}

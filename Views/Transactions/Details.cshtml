@@ -1,0 +1,124 @@
+﻿@model IEnumerable<WDDN_V2.Transaction>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //For user to see own transactions.
+}
+
+<!DOCTYPE html>
+@using Microsoft.AspNet.Identity
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+
+    @if (Request.IsAuthenticated)
+    {
+        <div>
+            @Html.AntiForgeryToken()
+
+            @if (!(ViewBag.Act == 1))
+            {
+                ViewBag.Title = "Account Statement";
+                <h2>My passbook</h2>
+                <br />
+                using (Html.BeginForm("Details", "Transactions", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.Hidden("id", User.Identity.GetUserId())
+                            <div class="col-lg-5">
+                                @Html.TextBox("searchString", null, new
+                           { @class = "form-control", @placeholder = "Search transaction..." })
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                ViewBag.Title = "Mini statement";
+                <h2>Mini statement</h2>
+            }
+            <table class="table table-hover ">
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Oops!</h4>
+                        <h2>No transactions found!</h2>
+                        <hr />
+                    </div>
+
+
+                }
+                else
+                {
+                    <tr class="bg-danger">
+                        <th>
+                            @Html.DisplayName("Summary")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Date & Time")
+                        </th>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+
+                    </tr>
+                    <p class="text-success">@ViewBag.StatusMessage</p>
+                    <br />
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (ViewBag.CUACC == item.ToAccount)
+                                {
+                                    @Html.DisplayFor(modelItem => item.FromAccount)
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.ToAccount)
+                                    <span>- @Html.DisplayFor(modelItem => item.Recipient)</span>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            @if (ViewBag.CUACC == item.ToAccount)
+                            {
+                                <td>
+                                    <span style="color:limegreen">@Html.DisplayName("Cr")</span>
+                                </td>
+                                <td style="color:limegreen">
+                                    &#8377;&nbsp; @Html.DisplayFor(modelItem => item.Amount, new { @class = "bg-primary" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td><span style="color:orangered">@Html.DisplayName("Dr")</span></td>
+
+                                <td style="color:orangered">
+                                    &#8377;&nbsp; @Html.DisplayFor(modelItem => item.Amount, new { @class = "bg-primary" })
+                                </td>
+                            }
+                        
+                        </tr>
+                        
+                    }
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <hr />
+
+        <img class="center-block" height="50%" width="50%" src="~/Images/undraw_warning_cyit.svg" />
+        <br />
+        <h4 class="text-danger text-center">Something went wrong !!!</h4>
+
+    }
+</body>
+</html>

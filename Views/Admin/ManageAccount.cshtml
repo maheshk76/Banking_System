@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "NewAccount";
+    TempData["ActiveUId"] = User.Identity.GetUserId();
+    TempData.Keep("ActiveUId");
+}
+
+@using Microsoft.AspNet.Identity
+
+
+@if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+{
+    <br />
+    <hr />
+<div class="row">
+    <a href="@Url.Action("Register", "Account")">
+        <div class="col-md-3">
+            <h5>New Application</h5>
+
+        </div>
+    </a>
+
+    <a href="@Url.Action("Index", "Usermanager")">
+        <div class="col-md-3">
+            <h5>Users</h5>
+
+        </div>
+    </a>
+
+    <a href="@Url.Action("Index", "Transactions")">
+        <div class="col-md-3">
+            <h5>All Transactions</h5>
+
+        </div>
+    </a>
+    <a href="@Url.Action("Create", "Transactions")">
+        <div class="col-md-3">
+            <h5>Bank Transfer</h5>
+
+        </div>
+    </a>
+   
+</div>
+
+}
+else
+{
+
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Warnnig!</h4> <hr />
+        <h2>You are not authorized to use this service.</h2>
+       
+
+    </div>
+}
+<hr />
+<br />
+<div class="center-block">
+    <img class="center-block" height="50%" width="50%" src="~/Images/undraw_online_organizer_ofxm.svg" />
+
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

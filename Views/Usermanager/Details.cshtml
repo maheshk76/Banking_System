@@ -1,0 +1,186 @@
+﻿@model WDDN_V2.AspNetUser
+@using Microsoft.AspNet.Identity
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //This is Users Profile Page.
+    ViewBag.Title = "Account summary";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profile</title>
+</head>
+<body>
+   
+       @if (Request.IsAuthenticated)
+        {
+    <div>
+        <marquee behavior="scroll" direction="left"
+                 class="text-danger alert-danger">
+            For any changes in any information please visit your branch and do applicaiton for the change of information.Thank you.
+            
+        </marquee>
+        <h1>Account summary</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-2">
+                <form action="/Manage/" method="get">
+                    <button type="submit" class="btn btn-success" disabled>Balance : @Html.DisplayFor(model => model.Balance)</button>
+                </form>
+            </div>
+            <div class="col-lg-2">
+                <form action="/Usermanager/ChangeInfo" method="get">
+
+                    <button type="submit" class="btn btn-default" title="we are updating">Profile Changes</button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form action="/Manage/ChangePassword" method="get">
+
+                    <button type="submit" class="btn btn-default">Change Password</button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form action="/Account/LockAccount" method="get">
+
+                    <button type="submit" class="btn btn-default">Lock Account</button>
+                </form>
+            </div>
+            <div class="col-lg-2">
+                <form action="/Transactions/Details" method="post">
+                    <input type="text" value=@User.Identity.GetUserId() name="id" hidden>
+                    <button type="submit" class="btn btn-default">Account Statement</button>
+                </form>
+            </div>
+            <div class="col-lg-2">
+                <form action="/Transactions/Details" method="get">
+                    <input type="text" value=@User.Identity.GetUserId() name="id" hidden>
+                    <input type="text" value="10" name="lim" hidden>
+                    <button type="submit" class="btn btn-default">Mini Statement</button>
+                </form>
+            </div>
+
+        </div>
+        <hr />
+
+        <p class="text-success">@ViewBag.StatusMessage</p>
+
+        
+        <dl class="dl-horizontal">
+
+            <h4>Personal</h4>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Guardian_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Guardian_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Date_of_Birth)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Date_of_Birth)
+            </dd>
+
+            <br />
+            <h4>Address Information</h4>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address),<br /> @Html.DisplayFor(model => model.City)-
+                @Html.DisplayFor(model => model.Pincode),<br /> @Html.DisplayFor(model => model.State),
+                @Html.DisplayFor(model => model.Country).
+            </dd>
+            
+         
+        </dl>
+       <div class="col-md-8"><hr /></div><br /><br />
+        <dl class="dl-horizontal">
+            <h4>Account Information</h4>
+            <dt>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AccountNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AccountType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AccountType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Balance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Balance)
+            </dd>
+            <dt>
+                @Html.DisplayName("Interest rate")
+            </dt>
+
+            <dd>
+                @Html.DisplayName("3,5%PA(Inclusive of All Taxes)")
+            </dd>
+
+        </dl>
+
+    </div>
+        }
+        else
+        {
+            <hr />
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Oops!</h4>
+                <h2>Error Occurred!</h2>
+                <hr />
+
+            </div>
+            <hr />
+        }
+    
+</body>
+</html>

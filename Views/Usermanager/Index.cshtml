@@ -1,0 +1,187 @@
+﻿@model IEnumerable<WDDN_V2.AspNetUser>
+@using Microsoft.AspNet.Identity
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //This page is for Admin to see all the users.
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Users</title>
+   
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+        {
+            <h2>Users</h2>
+            <hr />
+            using (Html.BeginForm("Index", "Usermanager", FormMethod.Get))
+            {
+                <div class="form-group">
+
+                    @Html.TextBox("searchString", null, new
+                { @class = "form-control mb-2", @placeholder = "Search user" })
+
+                </div>
+
+            }
+            <br />
+
+            <table class="table table-responsive table-hover">
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Oops!</h4>
+                        <h2>User not found!</h2>
+                        <hr />
+                    </div>
+                }
+                else
+                {
+                <tr class="bg-danger">
+                    <th>
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccountType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccountNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Guardian_Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date_of_Birth)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.City)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pincode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.State)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Country)
+                    </th>
+
+                    <th></th>
+                </tr>
+
+                    foreach (var item in Model)
+                    {
+
+            <tr>
+                @if (item.Email == "bankingsys12@gmail.com")
+                {
+                    
+                    <td style="display:inline-flex;color:red">
+                       ( <p>ADMIN</p> )&nbsp;
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })<p>&nbsp;</p>
+                    
+                    </td>
+                }
+                else
+                {
+                    <td style="display:inline-flex">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })<p>&nbsp;</p>|<p>&nbsp;</p>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Guardian_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_of_Birth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pincode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+
+
+            </tr>
+                }
+                }
+
+            </table>
+        }
+
+        else
+        {
+            <hr />
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Oops!</h4>
+                <h2>Error Occurred!</h2>
+                <hr />
+
+            </div>
+            <hr />
+        }
+    }
+</body>
+</html>

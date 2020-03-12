@@ -1,0 +1,112 @@
+﻿@model IEnumerable<WDDN_V2.Notification>
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Notifications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //All the transactions made by all the users.
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        label {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    @if (Request.IsAuthenticated && User.Identity.GetUserName() == "bankingsys12@gmail.com")
+    {
+        <h2>Notifications</h2>
+        <br />
+        @Html.AntiForgeryToken()
+
+        <table class="table table-responsive ">
+            @if (!Model.Any())
+            {
+                <div class="alert bg-primary" role="alert">
+                    <h4 class="alert-heading material-icons">notifications_off</h4>
+                    <h2>No new notification.</h2>
+                    <hr />
+                </div>
+            }
+            else
+            {
+                try
+                {
+                    <tr class="bg-danger">
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Issue)
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+
+                    foreach (var item in Model)
+                    {
+
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Issue)
+                            </td>
+                            <td style="display:inline-flex">
+                                <div class="col-md-2">
+                                    <form action="/Usermanager/Index" method="get">
+                                        <input type="text" value=@item.UserId name="id" hidden>
+                                        <button type="submit" class="btn btn-default">Approve</button>
+                                    </form>
+                                </div>&emsp;&emsp;&emsp;
+                                <div class="col-md-2">
+                                    @using (Html.BeginForm("Notifications", "Admin", FormMethod.Post, new { id = @item.UserId }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="text" value=@item.Id name="id" hidden>
+                                        <button type="submit" class="btn btn-default">Delete</button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+                    <div class="alert bg-primary" role="alert">
+                        <h4 class="alert-heading material-icons">notifications_off</h4>
+                        <h2>No new notification.</h2>
+                        <hr />
+                    </div>
+                }
+            }
+        </table>
+    }
+    else
+    {
+        <hr />
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Oops!</h4>
+            <h2>Error Occurred!</h2>
+            <hr />
+        </div>
+        <hr />
+    }
+
+</body>
+</html>
